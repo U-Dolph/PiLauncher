@@ -73,4 +73,3 @@ class FileManager:
     
     def launch_game(self, game):
         subprocess.run(["love", os.path.join(home_dir, "games", game['location'])])
-        # print(os.path.join(home_dir, "games", game['location']))

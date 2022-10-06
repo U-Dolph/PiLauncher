@@ -39,7 +39,7 @@ class NetworkService:
                 total_length = file_content.headers.get('content-length')
                 dl = 0
 
-                for data in file_content.iter_content(chunk_size=64):
+                for data in file_content.iter_content(chunk_size=4096):
                     dl += len(data)
                     buffer.write(data)
                     signal.emit(total_length, dl, game['id'])
