@@ -1,0 +1,9 @@
+{
+    "cloud_api_url": "http://localhost:7270",
+    "endpoints": {
+        "base": "user-api",
+        "games": "games",
+        "game": "game",
+        "download": "files"
+    }
+}
