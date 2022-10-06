@@ -25,6 +25,11 @@ Item {
         if(event.key == Qt.Key_S) {
             gamesLibraryList.currentIndex = gamesLibraryList.currentIndex + (gamesLibraryList.currentIndex < backend.libraryModel.rowCount() - 1 ? 1 : 0)
         }
+
+        if(event.key == Qt.Key_Space) {
+            // print(backend.storeModel.itemFromIndex(gamesStoreList.currentIndex))
+            backend.launchGame(gamesLibraryList.currentIndex)
+        }
     }
 
     Rectangle {

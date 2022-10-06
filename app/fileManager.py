@@ -1,5 +1,6 @@
 import os, json
 from json import JSONEncoder
+import subprocess
 
 home_dir = os.path.expanduser('~')
 print(home_dir)
@@ -68,4 +69,8 @@ class FileManager:
 
             file.seek(0)
             json.dump(data, file, indent=4)
-        
+
+    
+    def launch_game(self, game):
+        subprocess.run(["love", os.path.join(home_dir, "games", game['location'])])
+        # print(os.path.join(home_dir, "games", game['location']))

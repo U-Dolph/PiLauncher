@@ -147,6 +147,7 @@ class Backend(QObject):
                 raw = self.network_service.download_game(game, self.downloadProgress)
                 self.file_manager.save_game(raw, game)
 
+
     def check_if_installed(self, _id):
         installed_games = self.file_manager.get_games()
 
@@ -156,6 +157,7 @@ class Backend(QObject):
 
         return False
 
+
     def check_for_update(self, _id):
         onlineGame = self.network_service.get_game_by_id(_id)
         localGame = self.file_manager.get_game_by_id(_id)
@@ -164,3 +166,12 @@ class Backend(QObject):
             return True
 
         return False
+
+
+    @pyqtSlot(int)
+    def launchGame(self, index):
+        item = self._libraryModel.item(index, 0)
+        game = self.file_manager.get_game_by_id(item.data(GAME_ID))
+        print(game)
+
+        self.file_manager.launch_game(game)
