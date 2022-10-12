@@ -12,7 +12,7 @@ class NetworkService:
         url = f"{self.config['cloud_api_url']}/{self.config['endpoints']['base']}/{self.config['endpoints']['games']}"
 
         try:
-            games_response = self.session.get(url)
+            games_response = self.session.get(url, timeout=5)
             games = json.loads(games_response.content)
             return games
 
@@ -23,7 +23,7 @@ class NetworkService:
         url = f"{self.config['cloud_api_url']}/{self.config['endpoints']['base']}/{self.config['endpoints']['game']}/{id}"
 
         try:
-            games_response = self.session.get(url)
+            games_response = self.session.get(url, timeout=5)
             game = json.loads(games_response.content)
             # print(game)
             return game
@@ -35,7 +35,7 @@ class NetworkService:
         url = f"{self.config['cloud_api_url']}/{self.config['endpoints']['download']}/{game['filePath']}"
 
         with io.BytesIO() as buffer:
-            with self.session.get(url, stream=True) as file_content:
+            with self.session.get(url, stream=True, timeout=5) as file_content:
                 total_length = file_content.headers.get('content-length')
                 dl = 0
 
