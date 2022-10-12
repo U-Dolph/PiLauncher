@@ -1,8 +1,8 @@
 import sys, os
 
-from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtGui import QGuiApplication, QCursor
 from PyQt5.QtQml import QQmlApplicationEngine
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QUrl, Qt
 import app.backend as be
 
 base_directory = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +12,8 @@ class Application(QGuiApplication):
         super(Application, self).__init__(args)
 
         self.backend = be.Backend(self)
+
+        self.setOverrideCursor(QCursor(Qt.BlankCursor))
 
         self.engine = QQmlApplicationEngine()
         
