@@ -26,7 +26,7 @@ class Backend(QObject):
 
         self.file_manager = fm.FileManager()
         self.network_service = ns.NetworkService(config)
-        self.network_service.get_games_list()
+        # self.network_service.get_games_list()
 
         self._libraryModel = QStandardItemModel()
         self._libraryModel.setItemRoleNames(
@@ -159,13 +159,16 @@ class Backend(QObject):
 
 
     def check_for_update(self, _id):
-        onlineGame = self.network_service.get_game_by_id(_id)
-        localGame = self.file_manager.get_game_by_id(_id)
+        try: 
+            onlineGame = self.network_service.get_game_by_id(_id)
+            localGame = self.file_manager.get_game_by_id(_id)
 
-        if onlineGame['version'] != localGame['version']:
-            return True
+            if onlineGame['version'] != localGame['version']:
+                return True
 
-        return False
+            return False
+        except:
+            return False
 
 
     @pyqtSlot(int)
