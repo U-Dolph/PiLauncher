@@ -9,8 +9,8 @@ Rectangle {
     property string primaryColor: "#1a1a1a"
     property string secondaryColor: "#ffffff"
 
-    property int activeFontSize: 22
-    property int inactiveFontSize: 18
+    property int activeFontSize: 40
+    property int inactiveFontSize: 32
 
     property string displayText: "TEXT"
 
@@ -22,8 +22,8 @@ Rectangle {
         property var dynamicBackgroundColor: customMenuItem.isActive ? customMenuItem.secondaryColor : customMenuItem.primaryColor
     }
 
-    implicitWidth: 200
-    implicitHeight: 50
+    implicitWidth: 300
+    implicitHeight: 75
 
     color: internal.dynamicBackgroundColor
 
