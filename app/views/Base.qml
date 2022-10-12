@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
-//import QtGamepad 1.15
+import QtGamepad 1.15
 import "../controls"
 // import "views"
 
@@ -13,7 +13,7 @@ Window {
     property int selectedMenuItem: 0
     property string currentMode: "MainMenu"
 
-    onActiveFocusItemChanged: console.log(activeFocusItem)
+    // onActiveFocusItemChanged: console.log(activeFocusItem)
 
     FontLoader {
         id: mainFont
@@ -22,6 +22,11 @@ Window {
 
     Connections {
         target: backend
+    }
+
+    Connections {
+        target: GamepadManager
+        onGamepadConnected: gamepad.deviceId = deviceId
     }
     
     visible: true

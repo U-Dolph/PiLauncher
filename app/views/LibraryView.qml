@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtGamepad 1.15
 import "../controls"
 
 Item {
@@ -12,6 +13,35 @@ Item {
     property int selectedItem: 0
 
     focus: true
+
+    Gamepad {
+        id: gamepad
+        deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+
+        onButtonAChanged: (val) => {
+            if(val) {
+                backend.launchGame(gamesLibraryList.currentIndex)
+            }
+        }
+
+        onButtonBChanged: (val) => {
+            if(val) {
+                viewContainer.pop()
+            }
+        }
+
+        onButtonDownChanged: (val) => {
+            if(val) {
+                gamesLibraryList.currentIndex = gamesLibraryList.currentIndex + (gamesLibraryList.currentIndex < backend.libraryModel.rowCount() - 1 ? 1 : 0)
+            }
+        }
+
+        onButtonUpChanged: (val) => {
+            if(val) {
+                gamesLibraryList.currentIndex = gamesLibraryList.currentIndex - (gamesLibraryList.currentIndex > 0 ? 1 : 0)
+            }
+        }
+    }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_Escape) {
@@ -46,11 +76,11 @@ Item {
                 text: qsTr("LIBRARY")
                 font.family: mainFont.name
                 anchors.top: parent.top
-                font.pixelSize: 24
+                font.pixelSize: 36
                 horizontalAlignment: Text.AlignHCenter
                 font.bold: true
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 10
+                anchors.topMargin: 0
             }
 
             ListView {
@@ -134,42 +164,6 @@ Item {
                         spacing: 5
                     }
                 }
-
-                // model: ListModel {
-                //     id: gameModel
-                //     ListElement {
-                //         name: "Dash"
-                //         gameId: 0
-                //     }
-
-                //     ListElement {
-                //         name: "Amazed"
-                //         gameId: 1
-                //     }
-
-                //     ListElement {
-                //         name: "Game_1"
-                //         gameId: 2
-                //     }
-                //     ListElement {
-                //         name: "Game_2"
-                //         gameId: 3
-                //     }
-                //     ListElement {
-                //         name: "Game_3"
-                //         gameId: 4
-                //     }
-                //     ListElement {
-                //         name: "Game_4"
-                //         gameId: 5
-                //     }
-                //     ListElement {
-                //         name: "Game_5"
-                //         gameId: 6
-                //     }
-                // }
-
-                
             }
         }
     }

@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtGamepad 1.15
 // import "../controls"
 
 Item {
@@ -12,6 +13,35 @@ Item {
     property int selectedItem: 0
 
     focus: true
+
+    Gamepad {
+        id: gamepad
+        deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+
+        onButtonAChanged: (val) => {
+            if(val) {
+                backend.getStoreGame(gamesStoreList.currentIndex)
+            }
+        }
+
+        onButtonBChanged: (val) => {
+            if(val) {
+                viewContainer.pop()
+            }
+        }
+
+        onButtonDownChanged: (val) => {
+            if(val) {
+                gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
+            }
+        }
+
+        onButtonUpChanged: (val) => {
+            if(val) {
+                gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
+            }
+        }
+    }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_Escape) {
@@ -27,7 +57,6 @@ Item {
         }
 
         if(event.key == Qt.Key_Space) {
-            // print(backend.storeModel.itemFromIndex(gamesStoreList.currentIndex))
             backend.getStoreGame(gamesStoreList.currentIndex)
         }
     }
@@ -46,11 +75,11 @@ Item {
                 text: qsTr("STORE")
                 font.family: mainFont.name
                 anchors.top: parent.top
-                font.pixelSize: 24
+                font.pixelSize: 36
                 horizontalAlignment: Text.AlignHCenter
                 font.bold: true
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 10
+                anchors.topMargin: 0
             }
 
             ListView {
@@ -61,44 +90,6 @@ Item {
                 anchors.bottom: parent.bottom
                 clip: true
                 anchors.topMargin: 10
-
-                    
-
-                // model: ListModel {
-                //     id: gameModel
-                //     ListElement {
-                //         name: "Dash"
-                //         listId: 0
-                //         version: "1.0"
-                //         gameState: "asdf"
-                //     }
-
-                //     ListElement {
-                //         name: "Amazed"
-                //         listId: 1
-                //     }
-
-                //     ListElement {
-                //         name: "Game_1"
-                //         listId: 2
-                //     }
-                //     ListElement {
-                //         name: "Game_2"
-                //         listId: 3
-                //     }
-                //     ListElement {
-                //         name: "Game_3"
-                //         listId: 4
-                //     }
-                //     ListElement {
-                //         name: "Game_4"
-                //         listId: 5
-                //     }
-                //     ListElement {
-                //         name: "Game_5"
-                //         listId: 6
-                //     }
-                // }
 
                 model: backend.storeModel
 
