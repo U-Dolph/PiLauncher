@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
-import QtGamepad 1.15
+// import QtGamepad 1.15
 import "../controls"
 // import "views"
 
@@ -24,10 +24,10 @@ Window {
         target: backend
     }
 
-    Connections {
-        target: GamepadManager
-        onGamepadConnected: gamepad.deviceId = deviceId
-    }
+    // Connections {
+    //     target: GamepadManager
+    //     onGamepadConnected: gamepad.deviceId = deviceId
+    // }
     
     visible: true
     color: "#1a1a1a"

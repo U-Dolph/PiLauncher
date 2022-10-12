@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtGamepad 1.15
+// import QtGamepad 1.15
 import "../controls"
 
 Item {
@@ -14,34 +14,34 @@ Item {
 
     focus: true
 
-    Gamepad {
-        id: gamepad
-        deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+    // Gamepad {
+    //     id: gamepad
+    //     deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
 
-        onButtonAChanged: (val) => {
-            if(val) {
-                backend.launchGame(gamesLibraryList.currentIndex)
-            }
-        }
+    //     onButtonAChanged: (val) => {
+    //         if(val) {
+    //             backend.launchGame(gamesLibraryList.currentIndex)
+    //         }
+    //     }
 
-        onButtonBChanged: (val) => {
-            if(val) {
-                viewContainer.pop()
-            }
-        }
+    //     onButtonBChanged: (val) => {
+    //         if(val) {
+    //             viewContainer.pop()
+    //         }
+    //     }
 
-        onButtonDownChanged: (val) => {
-            if(val) {
-                gamesLibraryList.currentIndex = gamesLibraryList.currentIndex + (gamesLibraryList.currentIndex < backend.libraryModel.rowCount() - 1 ? 1 : 0)
-            }
-        }
+    //     onButtonDownChanged: (val) => {
+    //         if(val) {
+    //             gamesLibraryList.currentIndex = gamesLibraryList.currentIndex + (gamesLibraryList.currentIndex < backend.libraryModel.rowCount() - 1 ? 1 : 0)
+    //         }
+    //     }
 
-        onButtonUpChanged: (val) => {
-            if(val) {
-                gamesLibraryList.currentIndex = gamesLibraryList.currentIndex - (gamesLibraryList.currentIndex > 0 ? 1 : 0)
-            }
-        }
-    }
+    //     onButtonUpChanged: (val) => {
+    //         if(val) {
+    //             gamesLibraryList.currentIndex = gamesLibraryList.currentIndex - (gamesLibraryList.currentIndex > 0 ? 1 : 0)
+    //         }
+    //     }
+    // }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_Escape) {
