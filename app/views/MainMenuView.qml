@@ -12,62 +12,54 @@ Item {
 
     property int selectedMenuItem: 0
 
-    focus: true
+    function navUp() {
+        selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
+        backend.navigationChanged(selectedMenuItem)
+    }
 
-    // Gamepad {
-    //     id: gamepad
-    //     deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+    function navDown() {
+        selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
+        backend.navigationChanged(selectedMenuItem)
+    }
 
-    //     onButtonAChanged: (val) => {
-    //         if(val) {
-    //             if(selectedMenuItem == 0) {
-    //                 backend.getLocalGames()
-    //                 viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
-    //             }
+    function confirm() {
+        if(selectedMenuItem == 0) {
+            backend.getLocalGames()
+            viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
+        }
 
-    //             if(selectedMenuItem == 1) {
-    //                 backend.getOnlineGames()
-    //                 viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
-    //             }
-    //         }
-    //     }
+        if(selectedMenuItem == 1) {
+            backend.getOnlineGames()
+            viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
+        }
+    }
 
-    //     onButtonDownChanged: (val) => {
-    //         if(val) {
-    //             selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
-    //             backend.navigationChanged(selectedMenuItem)
-    //         }
-    //     }
+    function inputEvent(key, val)
+    {
+        if(key == "HY" && val == -1) {
+            navUp()
+        }
 
-    //     onButtonUpChanged: (val) => {
-    //         if(val) {
-    //             selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
-    //             backend.navigationChanged(selectedMenuItem)
-    //         }
-    //     }
-    // }
+        if(key == "HY" && val == 1) {
+            navDown()
+        }
+
+        if(key == "S" && val == 1) {
+            confirm()
+        }
+    }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_W) {
-            selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
-            backend.navigationChanged(selectedMenuItem)
+            navUp()
         }
         
         if(event.key == Qt.Key_S) {
-            selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
-            backend.navigationChanged(selectedMenuItem)
+            navDown()
         }
 
         if(event.key == Qt.Key_Space) {
-            if(selectedMenuItem == 0) {
-                backend.getLocalGames()
-                viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
-            }
-
-            if(selectedMenuItem == 1) {
-                backend.getOnlineGames()
-                viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
-            }
+            confirm()
         }
     }
 

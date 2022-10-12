@@ -19,15 +19,6 @@ Window {
         id: mainFont
         source: Qt.resolvedUrl("../assets/Instruction.otf")
     }
-
-    Connections {
-        target: backend
-    }
-
-    // Connections {
-    //     target: GamepadManager
-    //     onGamepadConnected: gamepad.deviceId = deviceId
-    // }
     
     visible: true
     color: "#1a1a1a"
@@ -64,37 +55,45 @@ Window {
             initialItem: Qt.resolvedUrl("MainMenuView.qml")
 
             pushEnter: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 0
-                        to:1
-                        duration: 100
-                    }
+                PropertyAnimation {
+                    property: "opacity"
+                    from: 0
+                    to:1
+                    duration: 100
                 }
-                pushExit: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 1
-                        to:0
-                        duration: 100
-                    }
+            }
+            pushExit: Transition {
+                PropertyAnimation {
+                    property: "opacity"
+                    from: 1
+                    to:0
+                    duration: 100
                 }
-                popEnter: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 0
-                        to:1
-                        duration: 100
-                    }
+            }
+            popEnter: Transition {
+                PropertyAnimation {
+                    property: "opacity"
+                    from: 0
+                    to:1
+                    duration: 100
                 }
-                popExit: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 1
-                        to:0
-                        duration: 100
-                    }
+            }
+            popExit: Transition {
+                PropertyAnimation {
+                    property: "opacity"
+                    from: 1
+                    to:0
+                    duration: 100
                 }
+            }
+        }
+    }
+
+        Connections {
+        target: backend
+
+        function onInputSignal(key, val) {
+            viewContainer.currentItem.inputEvent(key, val)
         }
     }
 }

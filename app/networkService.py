@@ -1,6 +1,5 @@
 import json
 import requests
-import time
 import io
 
 class NetworkService:

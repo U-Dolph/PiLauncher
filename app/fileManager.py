@@ -3,7 +3,6 @@ from json import JSONEncoder
 import subprocess
 
 home_dir = os.path.expanduser('~')
-print(home_dir)
 
 
 class CustomEncoder(JSONEncoder):

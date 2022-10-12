@@ -14,50 +14,56 @@ Item {
 
     focus: true
 
-    // Gamepad {
-    //     id: gamepad
-    //     deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+    function navUp() {
+        gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
+    }
 
-    //     onButtonAChanged: (val) => {
-    //         if(val) {
-    //             backend.getStoreGame(gamesStoreList.currentIndex)
-    //         }
-    //     }
+    function navDown() {
+        gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
+    }
 
-    //     onButtonBChanged: (val) => {
-    //         if(val) {
-    //             viewContainer.pop()
-    //         }
-    //     }
+    function confirm() {
+        backend.getStoreGame(gamesStoreList.currentIndex)
+    }
 
-    //     onButtonDownChanged: (val) => {
-    //         if(val) {
-    //             gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
-    //         }
-    //     }
+    function cancel() {
+        viewContainer.pop()
+    }
 
-    //     onButtonUpChanged: (val) => {
-    //         if(val) {
-    //             gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
-    //         }
-    //     }
-    // }
+    function inputEvent(key, val)
+    {
+        if(key == "HY" && val == -1) {
+            navUp()
+        }
+
+        if(key == "HY" && val == 1) {
+            navDown()
+        }
+
+        if(key == "S" && val == 1) {
+            confirm()
+        }
+
+        if(key == "E" && val == 1) {
+            cancel()
+        }
+    }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_Escape) {
-            viewContainer.pop()
+            cancel()
         }
 
         if(event.key == Qt.Key_W) {
-            gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
+            navUp()
         }
 
         if(event.key == Qt.Key_S) {
-            gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
+            navDown()
         }
 
         if(event.key == Qt.Key_Space) {
-            backend.getStoreGame(gamesStoreList.currentIndex)
+            confirm()
         }
     }
 

@@ -3,7 +3,9 @@ from PyQt5.QtCore import QObject, pyqtSlot, pyqtProperty, Qt, pyqtSignal
 import PyQt5.QtCore as QtCore
 import app.fileManager as fm
 import app.networkService as ns
+import app.controllerManager as cm
 import json
+from threading import Thread
 
 NAME_ROLE = Qt.UserRole
 LIST_ID_ROLE = Qt.UserRole + 1
@@ -15,7 +17,8 @@ STORE_STATE = Qt.UserRole + 100
 
 
 class Backend(QObject):
-    downloadProgress = pyqtSignal(int, int, int, arguments=["total", "progress", "actualId"])
+    # downloadProgress = pyqtSignal(int, int, int, arguments=["total", "progress", "actualId"])
+    inputSignal = pyqtSignal(str, int, arguments = ['event', 'value'])
 
     def __init__(self, application):
         QObject.__init__(self)
@@ -26,7 +29,11 @@ class Backend(QObject):
 
         self.file_manager = fm.FileManager()
         self.network_service = ns.NetworkService(config)
+        self.controller_manager = cm.ControllerManager(signal=self.inputSignal)
         # self.network_service.get_games_list()
+
+        input_thread = Thread(target=self.controller_manager.poll)
+        input_thread.start()
 
         self._libraryModel = QStandardItemModel()
         self._libraryModel.setItemRoleNames(
