@@ -14,56 +14,76 @@ Item {
 
     focus: true
 
-    function navUp() {
-        gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
-    }
+    Connections {
+        target: backend
 
-    function navDown() {
-        gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
-    }
+        function onInputSignal(button, val) {
+            if(focus) {
+                if(button == "HY") {
+                    if(val == -1) {
+                        gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
+                    }
 
-    function confirm() {
-        backend.getStoreGame(gamesStoreList.currentIndex)
-    }
+                    if(val == 1) {
+                        gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
+                    }
+                }
 
-    function cancel() {
-        viewContainer.pop()
-    }
+                if(button == "B" && val == 1) {
+                    viewContainer.pop()
+                }
 
-    function inputEvent(key, val)
-    {
-        if(key == "HY" && val == -1) {
-            navUp()
-        }
-
-        if(key == "HY" && val == 1) {
-            navDown()
-        }
-
-        if(key == "S" && val == 1) {
-            confirm()
-        }
-
-        if(key == "E" && val == 1) {
-            cancel()
+                if(button == "A" && val == 1) {
+                    backend.getStoreGame(gamesStoreList.currentIndex)
+                }
+            }
         }
     }
+
+    // Gamepad {
+    //     id: gamepad
+    //     deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+
+    //     onButtonAChanged: (val) => {
+    //         if(val) {
+    //             backend.getStoreGame(gamesStoreList.currentIndex)
+    //         }
+    //     }
+
+    //     onButtonBChanged: (val) => {
+    //         if(val) {
+    //             viewContainer.pop()
+    //         }
+    //     }
+
+    //     onButtonDownChanged: (val) => {
+    //         if(val) {
+    //             gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
+    //         }
+    //     }
+
+    //     onButtonUpChanged: (val) => {
+    //         if(val) {
+    //             gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
+    //         }
+    //     }
+    // }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_Escape) {
-            cancel()
+            viewContainer.pop()
         }
 
         if(event.key == Qt.Key_W) {
-            navUp()
+            gamesStoreList.currentIndex = gamesStoreList.currentIndex - (gamesStoreList.currentIndex > 0 ? 1 : 0)
         }
 
         if(event.key == Qt.Key_S) {
-            navDown()
+            gamesStoreList.currentIndex = gamesStoreList.currentIndex + (gamesStoreList.currentIndex < backend.storeModel.rowCount() - 1 ? 1 : 0)
         }
 
         if(event.key == Qt.Key_Space) {
-            confirm()
+            backend.getStoreGame(gamesStoreList.currentIndex)
         }
     }
 

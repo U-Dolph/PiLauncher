@@ -12,54 +12,96 @@ Item {
 
     property int selectedMenuItem: 0
 
-    function navUp() {
-        selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
-        backend.navigationChanged(selectedMenuItem)
+    focus: true
+
+    Connections {
+        target: backend
+
+        function onInputSignal(button, val) {
+            if(focus) {
+                if(button == "HY") {
+                    if(val == -1) {
+                        selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
+                        backend.navigationChanged(selectedMenuItem)
+                    }
+
+                    if(val == 1) {
+                        selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
+                        backend.navigationChanged(selectedMenuItem)
+                    }
+                }
+
+                if(button == "A") {
+                    if(val == 1) {
+                        if(selectedMenuItem == 0) {
+                            backend.getLocalGames()
+                            viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
+                        }
+
+                        if(selectedMenuItem == 1) {
+                            backend.getOnlineGames()
+                            viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    function navDown() {
-        selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
-        backend.navigationChanged(selectedMenuItem)
-    }
+    // Gamepad {
+    //     id: gamepad
+    //     deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
 
-    function confirm() {
-        if(selectedMenuItem == 0) {
-            backend.getLocalGames()
-            viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
-        }
+    //     onButtonAChanged: (val) => {
+    //         if(val) {
+    //             if(selectedMenuItem == 0) {
+    //                 backend.getLocalGames()
+    //                 viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
+    //             }
 
-        if(selectedMenuItem == 1) {
-            backend.getOnlineGames()
-            viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
-        }
-    }
+    //             if(selectedMenuItem == 1) {
+    //                 backend.getOnlineGames()
+    //                 viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
+    //             }
+    //         }
+    //     }
 
-    function inputEvent(key, val)
-    {
-        if(key == "HY" && val == -1) {
-            navUp()
-        }
+    //     onButtonDownChanged: (val) => {
+    //         if(val) {
+    //             selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
+    //             backend.navigationChanged(selectedMenuItem)
+    //         }
+    //     }
 
-        if(key == "HY" && val == 1) {
-            navDown()
-        }
-
-        if(key == "S" && val == 1) {
-            confirm()
-        }
-    }
+    //     onButtonUpChanged: (val) => {
+    //         if(val) {
+    //             selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
+    //             backend.navigationChanged(selectedMenuItem)
+    //         }
+    //     }
+    // }
 
     Keys.onPressed: (event)=> {
         if(event.key == Qt.Key_W) {
-            navUp()
+            selectedMenuItem = selectedMenuItem - (selectedMenuItem > 0 ? 1 : 0)
+            backend.navigationChanged(selectedMenuItem)
         }
         
         if(event.key == Qt.Key_S) {
-            navDown()
+            selectedMenuItem = selectedMenuItem + (selectedMenuItem < menuColumn.children.length - 1 ? 1 : 0)
+            backend.navigationChanged(selectedMenuItem)
         }
 
         if(event.key == Qt.Key_Space) {
-            confirm()
+            if(selectedMenuItem == 0) {
+                backend.getLocalGames()
+                viewContainer.push(Qt.resolvedUrl("LibraryView.qml"))
+            }
+
+            if(selectedMenuItem == 1) {
+                backend.getOnlineGames()
+                viewContainer.push(Qt.resolvedUrl("StoreView.qml"))
+            }
         }
     }
 

@@ -17,7 +17,7 @@ STORE_STATE = Qt.UserRole + 100
 
 
 class Backend(QObject):
-    # downloadProgress = pyqtSignal(int, int, int, arguments=["total", "progress", "actualId"])
+    downloadProgress = pyqtSignal(int, int, int, arguments=["total", "progress", "actualId"])
     inputSignal = pyqtSignal(str, int, arguments = ['event', 'value'])
 
     def __init__(self, application):
@@ -88,7 +88,6 @@ class Backend(QObject):
     @pyqtProperty(QObject, constant=True)
     def storeModel(self):
         return self._storeModel
-
 
     @pyqtSlot(bool)
     def buttonAPressed(self, val):

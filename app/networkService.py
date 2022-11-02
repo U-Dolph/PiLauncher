@@ -10,11 +10,11 @@ class NetworkService:
     def get_games_list(self):
         url = f"{self.config['cloud_api_url']}/{self.config['endpoints']['base']}/{self.config['endpoints']['games']}"
 
+
         try:
-            games_response = self.session.get(url, timeout=5)
+            games_response = self.session.get(url, timeout=5, verify=False)
             games = json.loads(games_response.content)
             return games
-
         except:
             return []
 
@@ -24,7 +24,6 @@ class NetworkService:
         try:
             games_response = self.session.get(url, timeout=5)
             game = json.loads(games_response.content)
-            # print(game)
             return game
 
         except:

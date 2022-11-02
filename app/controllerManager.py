@@ -7,14 +7,14 @@ EVENT_ABB = (
     ('Absolute-ABS_HAT0Y', 'HY'),
 
     # Face Buttons
-    ('Key-BTN_NORTH', 'N'),
-    ('Key-BTN_EAST', 'E'),
-    ('Key-BTN_SOUTH', 'S'),
-    ('Key-BTN_WEST', 'W'),
+    ('Key-BTN_NORTH', 'Y'),
+    ('Key-BTN_EAST', 'B'),
+    ('Key-BTN_SOUTH', 'A'),
+    ('Key-BTN_WEST', 'X'),
 
     # Other buttons
-    ('Key-BTN_MODE', 'M'),
-    ('Key-BTN_START', 'ST'),
+    ('Key-BTN_MODE', 'SEL'),
+    ('Key-BTN_START', 'STR'),
 )
 
 class ControllerManager:
@@ -34,7 +34,6 @@ class ControllerManager:
         except:
             return
                 
-        # print(abbv, event.state)
         self.signal.emit(abbv, event.state)
 
     def process_events(self):
